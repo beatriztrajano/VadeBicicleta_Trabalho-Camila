@@ -361,3 +361,9 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Arquivos de configuracao de banco de dados e credenciais sensiveis
+*DbConfig*
+*Dbconfig*
+**/DbConfig.cs
+**/Dbconfig.cs
