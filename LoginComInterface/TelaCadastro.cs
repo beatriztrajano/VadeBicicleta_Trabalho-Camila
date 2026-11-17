@@ -5,19 +5,24 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace LoginComInterface
 {
     public partial class TelaCadastro : Form
     {
+        private byte[]? _documentoBytes;
+        private string? _extensaoDocumento;
+
         public TelaCadastro()
         {
             InitializeComponent();
         }
 
-        private void btnCadastrarSql_Click(object sender, EventArgs e)
+        private async void btnCadastrarSql_Click(object sender, EventArgs e)
         {
             string usuario = textUsuarioC.Text;
             string senha = textSenhaC.Text;
@@ -30,23 +35,82 @@ namespace LoginComInterface
                 return;
             }
 
-            using (var context = new LoginDbContext())
+            try
             {
-                if (context.Logins.Any(x => x.Usuario == usuario))
+                btnCadastrarSql.Enabled = false;
+
+                string? caminhoSalvo = null;
+
+                // 1. Se anexou documento/foto, envia para o Bucket Privado
+                if (_documentoBytes != null && !string.IsNullOrEmpty(_extensaoDocumento))
                 {
-                    MessageBox.Show("Usuário já existe!", "[ERRO]", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    caminhoSalvo = await SupabaseStorageService.UploadArquivoAsync(_documentoBytes, _extensaoDocumento, usuario);
                 }
 
-                string senhaHash = BCrypt.Net.BCrypt.HashPassword(senha);
+                // 2. Grava no banco apenas a string com o caminho do arquivo
+                using (var context = new LoginDbContext())
+                {
+                    if (context.Logins.Any(x => x.Usuario == usuario))
+                    {
+                        MessageBox.Show("Usuário já existe!", "[ERRO]", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
 
-                context.Logins.Add(new Login(usuario, senhaHash, cpf, cartao));
-                context.SaveChanges();
+                    string senhaHash = BCrypt.Net.BCrypt.HashPassword(senha);
 
-                MessageBox.Show("Usuario Cadastrado com sucesso", "[SUCESSO]", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    context.Logins.Add(new Login(usuario, senhaHash, cpf, cartao, caminhoSalvo));
+                    context.SaveChanges();
 
-                this.Close();
+                    MessageBox.Show("Usuário cadastrado com sucesso!", "[SUCESSO]", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro no cadastro: {ex.Message}", "[ERRO]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                btnCadastrarSql.Enabled = true;
+            }
+        }
 
+        private void btnImage_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Title = "Anexar foto ou PDF do documento";
+                openFileDialog.Filter = "Documentos (*.jpg;*.jpeg;*.png;*.pdf)|*.jpg;*.jpeg;*.png;*.pdf";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string caminhoArquivo = openFileDialog.FileName;
+                    FileInfo infoArquivo = new FileInfo(caminhoArquivo);
+
+                    // 1. Limite de tamanho (máximo 5 MB)
+                    if (infoArquivo.Length > 5 * 1024 * 1024)
+                    {
+                        MessageBox.Show("O arquivo deve ter no máximo 5 MB.", "Arquivo muito grande", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    _extensaoDocumento = infoArquivo.Extension.ToLower();
+                    _documentoBytes = File.ReadAllBytes(caminhoArquivo);
+                    lblNomeArquivo.Text = infoArquivo.Name; // Exibe o nome do arquivo selecionado
+
+                    // 2. Se for imagem, exibe a prévia no PictureBox; se for PDF, limpa a prévia visual
+                    if (_extensaoDocumento != ".pdf")
+                    {
+                        using (var stream = new MemoryStream(_documentoBytes))
+                        {
+                            picDocumento.Image = Image.FromStream(stream);
+                        }
+                    }
+                    else
+                    {
+                        picDocumento.Image = null;
+                    }
+                }
             }
         }
     }

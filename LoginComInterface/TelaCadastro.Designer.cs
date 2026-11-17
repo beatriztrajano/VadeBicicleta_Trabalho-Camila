@@ -38,6 +38,10 @@
             label5 = new Label();
             label3 = new Label();
             btnCadastrarSql = new Button();
+            picDocumento = new PictureBox();
+            btnImage = new Button();
+            lblNomeArquivo = new Label();
+            ((System.ComponentModel.ISupportInitialize)picDocumento).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -125,12 +129,44 @@
             btnCadastrarSql.UseVisualStyleBackColor = true;
             btnCadastrarSql.Click += btnCadastrarSql_Click;
             // 
+            // picDocumento
+            // 
+            picDocumento.BorderStyle = BorderStyle.FixedSingle;
+            picDocumento.Location = new Point(544, 103);
+            picDocumento.Name = "picDocumento";
+            picDocumento.Size = new Size(100, 50);
+            picDocumento.SizeMode = PictureBoxSizeMode.Zoom;
+            picDocumento.TabIndex = 12;
+            picDocumento.TabStop = false;
+            // 
+            // btnImage
+            // 
+            btnImage.Location = new Point(544, 169);
+            btnImage.Name = "btnImage";
+            btnImage.Size = new Size(100, 25);
+            btnImage.TabIndex = 13;
+            btnImage.Text = "Escolher Foto";
+            btnImage.UseVisualStyleBackColor = true;
+            btnImage.Click += btnImage_Click;
+            // 
+            // lblNomeArquivo
+            // 
+            lblNomeArquivo.AutoSize = true;
+            lblNomeArquivo.Location = new Point(544, 85);
+            lblNomeArquivo.Name = "lblNomeArquivo";
+            lblNomeArquivo.Size = new Size(85, 15);
+            lblNomeArquivo.TabIndex = 14;
+            lblNomeArquivo.Text = "Nome Arquivo";
+            // 
             // TelaCadastro
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveBorder;
             ClientSize = new Size(800, 450);
+            Controls.Add(lblNomeArquivo);
+            Controls.Add(btnImage);
+            Controls.Add(picDocumento);
             Controls.Add(btnCadastrarSql);
             Controls.Add(label3);
             Controls.Add(label5);
@@ -143,6 +179,7 @@
             Controls.Add(label1);
             Name = "TelaCadastro";
             Text = "TelaCadastro";
+            ((System.ComponentModel.ISupportInitialize)picDocumento).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -159,5 +196,8 @@
         private Label label5;
         private Label label3;
         private Button btnCadastrarSql;
+        private PictureBox picDocumento;
+        private Button btnImage;
+        private Label lblNomeArquivo;
     }
 }

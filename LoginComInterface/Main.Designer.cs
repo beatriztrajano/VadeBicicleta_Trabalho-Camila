@@ -31,6 +31,7 @@
             btnLogar = new Button();
             btnCadastrar = new Button();
             label1 = new Label();
+            btnCEstrangeiro = new Button();
             SuspendLayout();
             // 
             // btnLogar
@@ -64,12 +65,23 @@
             label1.Text = "Escolha uma Opção: ";
             label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // btnCEstrangeiro
+            // 
+            btnCEstrangeiro.Location = new Point(335, 173);
+            btnCEstrangeiro.Name = "btnCEstrangeiro";
+            btnCEstrangeiro.Size = new Size(125, 40);
+            btnCEstrangeiro.TabIndex = 5;
+            btnCEstrangeiro.Text = "Cadastrar Estrangeiro";
+            btnCEstrangeiro.UseVisualStyleBackColor = true;
+            btnCEstrangeiro.Click += btnCEstrangeiro_Click;
+            // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveBorder;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnCEstrangeiro);
             Controls.Add(label1);
             Controls.Add(btnCadastrar);
             Controls.Add(btnLogar);
@@ -83,5 +95,6 @@
         private Button btnLogar;
         private Button btnCadastrar;
         private Label label1;
+        private Button btnCEstrangeiro;
     }
 }

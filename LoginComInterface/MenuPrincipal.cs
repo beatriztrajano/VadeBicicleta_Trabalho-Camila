@@ -10,9 +10,11 @@ namespace LoginComInterface
 {
     public partial class MenuPrincipal : Form
     {
-        public MenuPrincipal()
+        public MenuPrincipal(string usuario)
         {
             InitializeComponent();
+
+            lblUsuarioLogado.Text = usuario;
         }
     }
 }

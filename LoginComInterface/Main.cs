@@ -28,5 +28,12 @@ namespace LoginComInterface
 
             telaCadastro.ShowDialog();
         }
+
+        private void btnCEstrangeiro_Click(object sender, EventArgs e)
+        {
+            TelaCadastroEstrangeiro telaCadastroEstrangeiro = new TelaCadastroEstrangeiro();
+
+            telaCadastroEstrangeiro.ShowDialog();
+        }
     }
 }

@@ -367,3 +367,8 @@ FodyWeavers.xsd
 *Dbconfig*
 **/DbConfig.cs
 **/Dbconfig.cs
+
+# Servico de armazenamento e credenciais do Supabase
+**/SupabaseStorageService.cs
+SupabaseStorageService.cs
+!**/SupabaseStorageService.example.cs
