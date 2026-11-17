@@ -28,17 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
+            lblUsuarioLogado = new Label();
             label1 = new Label();
             SuspendLayout();
+            // 
+            // lblUsuarioLogado
+            // 
+            lblUsuarioLogado.AutoSize = true;
+            lblUsuarioLogado.Font = new Font("Segoe UI", 12F);
+            lblUsuarioLogado.Location = new Point(358, 126);
+            lblUsuarioLogado.Name = "lblUsuarioLogado";
+            lblUsuarioLogado.Size = new Size(52, 21);
+            lblUsuarioLogado.TabIndex = 0;
+            lblUsuarioLogado.Text = "label1";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(351, 31);
+            label1.Font = new Font("Segoe UI", 12F);
+            label1.Location = new Point(358, 25);
             label1.Name = "label1";
-            label1.Size = new Size(38, 15);
-            label1.TabIndex = 0;
-            label1.Text = "label1";
+            label1.Size = new Size(62, 21);
+            label1.TabIndex = 1;
+            label1.Text = "Logado";
             // 
             // MenuPrincipal
             // 
@@ -47,6 +59,7 @@
             BackColor = SystemColors.ActiveBorder;
             ClientSize = new Size(800, 450);
             Controls.Add(label1);
+            Controls.Add(lblUsuarioLogado);
             Name = "MenuPrincipal";
             Text = "MenuPrincipal";
             ResumeLayout(false);
@@ -55,6 +68,7 @@
 
         #endregion
 
+        private Label lblUsuarioLogado;
         private Label label1;
     }
 }

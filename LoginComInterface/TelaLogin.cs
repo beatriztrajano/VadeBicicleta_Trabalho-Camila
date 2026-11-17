@@ -34,8 +34,11 @@ namespace LoginComInterface
                 else
                 {
                     MessageBox.Show("Logado", "[INFO]", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    MenuPrincipal tela = new MenuPrincipal();
+                    MenuPrincipal tela = new MenuPrincipal(user.Usuario);
+
+                    this.Hide();
                     tela.ShowDialog();
+                    this.Close();
                 }
 
             }
